@@ -46,6 +46,7 @@ static void MDTestSuite PROTO_LIST((void));
 static void MDFile PROTO_LIST((char *));
 static void MDFilter PROTO_LIST((void));
 static void MDPrint PROTO_LIST((unsigned char[16]));
+void print_usage(char *);
 
 #if MD == 2
 #define MD_CTX MD2_CTX
@@ -89,6 +90,8 @@ char *argv[];
                 MDTimeTrial();
             else if (strcmp(argv[i], "-x") == 0)
                 MDTestSuite();
+            else if (strcmp(argv[i], "-h") == 0)
+                print_usage(argv[0]);
             else
                 MDFile(argv[i]);
     else
@@ -217,4 +220,16 @@ static void MDPrint(digest) unsigned char digest[16];
 
     for (i = 0; i < 16; i++)
         printf("%02x", digest[i]);
+}
+
+/* Print usage */
+void print_usage(char *name)
+{
+    printf("Usage: %s <arguments>\n", name);
+    printf("Arguments (may be any combination): \n \
+-sstring - digests string \n \
+-t       - runs time trial \n \
+-x       - runs test script \n \
+filename - digests file \n \
+(none)   - digests standard input\n");
 }
