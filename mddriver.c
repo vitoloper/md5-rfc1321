@@ -37,8 +37,8 @@ documentation and/or software.
 
 /* Length of test block, number of test blocks.
  */
-#define TEST_BLOCK_LEN 1000
-#define TEST_BLOCK_COUNT 1000
+#define TEST_BLOCK_LEN 20000
+#define TEST_BLOCK_COUNT 10000
 
 static void MDString PROTO_LIST((char *));
 static void MDTimeTrial PROTO_LIST((void));
