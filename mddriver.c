@@ -126,6 +126,9 @@ static void MDTimeTrial()
     time_t endTime, startTime;
     unsigned char block[TEST_BLOCK_LEN], digest[16];
     unsigned int i;
+    time_t elapsedTime;
+    long int speed;
+
     printf("MD%d time trial. Digesting %d %d-byte blocks ...", MD,
            TEST_BLOCK_LEN, TEST_BLOCK_COUNT);
 
@@ -145,12 +148,19 @@ static void MDTimeTrial()
     /* Stop timer */
     time(&endTime);
 
+    /* Elapsed time (in seconds) */
+    elapsedTime = endTime - startTime;
+
     printf(" done\n");
     printf("Digest = ");
     MDPrint(digest);
-    printf("\nTime = %ld seconds\n", (long)(endTime - startTime));
-    printf("Speed = %ld bytes/second\n",
-           (long)TEST_BLOCK_LEN * (long)TEST_BLOCK_COUNT / (endTime - startTime));
+    printf("\nTime = %ld seconds\n", (long)elapsedTime);
+    if (elapsedTime > 0) {
+        speed = (long)TEST_BLOCK_LEN * (long)TEST_BLOCK_COUNT / elapsedTime;
+        printf("Speed = %ld bytes/second\n", speed);
+    } else {
+        printf("Cannot compute speed (too fast, Time = 0)\n");
+    }
 }
 
 /* Digests a reference suite of strings and prints the results.
