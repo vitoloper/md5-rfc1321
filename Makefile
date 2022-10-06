@@ -1,6 +1,6 @@
 CC = gcc
 
-CFLAGS = -Wall
+CFLAGS = -Wall -Wextra -O3
 
 OBJECTS = md5c.o mddriver.o
 
