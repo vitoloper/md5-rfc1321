@@ -36,6 +36,7 @@
 *.x86_64
 *.hex
 mddriver
+generate_T_table
 
 # Debug files
 *.dSYM/
