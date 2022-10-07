@@ -237,6 +237,7 @@ void print_usage(char *name)
 {
     printf("Usage: %s <arguments>\n", name);
     printf("Arguments (may be any combination): \n \
+-h       - print usage information \n \
 -sstring - digests string \n \
 -t       - runs time trial \n \
 -x       - runs test script \n \
