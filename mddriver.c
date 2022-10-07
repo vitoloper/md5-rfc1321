@@ -182,7 +182,7 @@ static void MDTestSuite()
 
 /* Digests a file and prints the result.
  */
-static void MDFile(char *filename);
+static void MDFile(char *filename)
 {
     FILE *file;
     MD_CTX context;
