@@ -76,9 +76,7 @@ Arguments (may be any combination):
   filename - digests file
   (none)   - digests standard input
  */
-int main(argc, argv)
-int argc;
-char *argv[];
+int main(int argc, char *argv[])
 {
     int i;
 
@@ -104,9 +102,9 @@ char *argv[];
  */
 static void MDString(char *string)
 {
-    MD_CTX context;
-    unsigned char digest[16];
-    unsigned int len = strlen(string);
+    MD_CTX context;                    /* context */
+    unsigned char digest[16];          /* 128 bit digest */
+    unsigned int len = strlen(string); /* string length */
 
     MDInit(&context);
     MDUpdate(&context, (unsigned char *)string, len);
