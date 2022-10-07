@@ -102,7 +102,7 @@ char *argv[];
 
 /* Digests a string and prints the result.
  */
-static void MDString(string) char *string;
+static void MDString(char *string)
 {
     MD_CTX context;
     unsigned char digest[16];
@@ -158,7 +158,8 @@ static void MDTimeTrial()
     if (elapsedTime > 0) {
         speed = (long)TEST_BLOCK_LEN * (long)TEST_BLOCK_COUNT / elapsedTime;
         printf("Speed = %ld bytes/second\n", speed);
-    } else {
+    }
+    else {
         printf("Cannot compute speed (too fast, Time = 0)\n");
     }
 }
@@ -181,7 +182,7 @@ static void MDTestSuite()
 
 /* Digests a file and prints the result.
  */
-static void MDFile(filename) char *filename;
+static void MDFile(char *filename);
 {
     FILE *file;
     MD_CTX context;
@@ -224,7 +225,7 @@ static void MDFilter()
 
 /* Prints a message digest in hexadecimal.
  */
-static void MDPrint(digest) unsigned char digest[16];
+static void MDPrint(unsigned char digest[16])
 {
     unsigned int i;
 
