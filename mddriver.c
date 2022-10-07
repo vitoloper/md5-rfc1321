@@ -109,7 +109,7 @@ static void MDString(char *string)
     unsigned int len = strlen(string);
 
     MDInit(&context);
-    MDUpdate(&context, string, len);
+    MDUpdate(&context, (unsigned char *)string, len);
     MDFinal(digest, &context);
 
     printf("MD%d (\"%s\") = ", MD, string);

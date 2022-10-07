@@ -8,7 +8,7 @@
  */
 
 #ifndef PROTOTYPES
-#define PROTOTYPES 0
+#define PROTOTYPES 1
 #endif
 
 #include <stdint.h>
