@@ -7,10 +7,10 @@ OBJECTS = md5c.o mddriver.o
 mddriver: $(OBJECTS)
 	$(CC) $(CFLAGS) -o mddriver $(OBJECTS) 
 
-md5c.o: md5c.c
+md5c.o: md5c.c global.h md5.h
 	$(CC) $(CFLAGS) -c md5c.c
 
-mddriver.o: mddriver.c
+mddriver.o: mddriver.c global.h md5.h
 	$(CC) $(CFLAGS) -c mddriver.c
 
 clean:
