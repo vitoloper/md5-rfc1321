@@ -40,6 +40,9 @@ documentation and/or software.
 #define TEST_BLOCK_LEN 20000
 #define TEST_BLOCK_COUNT 10000
 
+/* File read buffer size */
+#define FREAD_BUF_SIZE 4096
+
 static void MDString PROTO_LIST((char *));
 static void MDTimeTrial PROTO_LIST((void));
 static void MDTestSuite PROTO_LIST((void));
@@ -185,14 +188,14 @@ static void MDFile(char *filename)
     FILE *file;
     MD_CTX context;
     int len;
-    unsigned char buffer[1024], digest[16];
+    unsigned char buffer[FREAD_BUF_SIZE], digest[16];
 
     if ((file = fopen(filename, "rb")) == NULL)
         printf("%s can't be opened\n", filename);
 
     else {
         MDInit(&context);
-        while ((len = fread(buffer, 1, 1024, file)))
+        while ((len = fread(buffer, 1, FREAD_BUF_SIZE, file)))
             MDUpdate(&context, buffer, len);
         MDFinal(digest, &context);
 
