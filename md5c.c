@@ -106,11 +106,12 @@ void MD5Init(MD5_CTX *context /* context */
 {
     context->count[0] = context->count[1] = 0;
     /* Load magic initialization constants.
+       These registers are initialized low-order bytes first.
      */
-    context->state[0] = 0x67452301;
-    context->state[1] = 0xefcdab89;
-    context->state[2] = 0x98badcfe;
-    context->state[3] = 0x10325476;
+    context->state[0] = 0x67452301; /* word A: 01 23 45 67 */
+    context->state[1] = 0xefcdab89; /* word B: 89 ab cd ef */
+    context->state[2] = 0x98badcfe; /* word C: fe dc ba 98 */
+    context->state[3] = 0x10325476; /* word D: 76 54 32 10 */
 }
 
 /* MD5 block update operation. Continues an MD5 message-digest
@@ -123,22 +124,58 @@ void MD5Update(MD5_CTX *context,      /* context */
 {
     unsigned int i, index, partLen;
 
+    /* context->count[0] >> 3: convert number of bits to number of bytes */
+    /* index = count[0] % 64 */
     index = (unsigned int)((context->count[0] >> 3) & 0x3F);
 
     /* Update number of bits */
+    /* ((UINT4)inputLen << 3)): convert number of bytes to
+       number of bits (so length is expressed in bits) */
+    /*
+       If adding length of the input (in bits) causes an overflow (and
+       the resulting unsigned integer type is reduced modulo to the number
+       that is one greater than the largest value that can be represented by
+       the resulting type), then increment next 32-bit word (count[1]).
+
+       Example
+       count[0] can represent a maximum value of 2^32 - 1 = 4294967295
+       Suppose count[0] = 2^32 - 8 = 4294967288
+       Then, count[0] + 8 = 0 (overflow)
+       So, do count[1]++
+       Finally, the value 4294967296 (2^32) can be represented by using both
+       count[0] and count[1] (2^64 bits)
+
+       Note
+       count[1]: most significant bits
+       count[0]: least significant bits
+     */
     if ((context->count[0] += ((UINT4)inputLen << 3)) < ((UINT4)inputLen << 3))
         context->count[1]++;
 
+    /* Take into account the fact that inputLen three most significant bits
+       {32 31 30} are lost when previously shifting left (inputLen << 3).
+       So add that 3 bits value to count[1] to get the complete 8 bytes
+       number {count[0], count[1]}.
+     */
     context->count[1] += ((UINT4)inputLen >> 29);
 
+    /*
+       partLen indicates how many bytes we need to append to the
+       context buffer in order to get a complete 64 bytes block.
+    */
     partLen = 64 - index;
 
     /* Transform as many times as possible.
+       At least one complete 64 bytes block should be available.
      */
     if (inputLen >= partLen) {
+        /* Complete the 64 bytes block in context */
         MD5_memcpy((POINTER)&context->buffer[index], (POINTER)input, partLen);
+
+        /* Transform state based on block (64 bytes block) */
         MD5Transform(context->state, context->buffer);
 
+        /* Transform until no more 64 bytes blocks are available. */
         for (i = partLen; i + 63 < inputLen; i += 64)
             MD5Transform(context->state, &input[i]);
 
