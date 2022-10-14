@@ -1,5 +1,6 @@
 # md5-rfc1321
 The MD5 message-digest algorithm from [RFC1321](https://www.ietf.org/rfc/rfc1321.txt), revised to be compiled on current systems.
+
 Additional comments and annotations in the source code have also been added for educational purposes.
 
 ## Prerequisites
@@ -36,4 +37,5 @@ The *generate_T_table* application is independent from the main *mddriver* appli
 
 ## Credits
 Copyright (C) 1990-2 RSA Data Security Inc. (original MD5 message-digest algorithm)
+
 Copyright (C) 2022 vitoloper (original code revisions and comments, generate_T_table.c)
